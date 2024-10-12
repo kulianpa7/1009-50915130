@@ -25,7 +25,7 @@
 
 1. 複製此倉庫：
     ```bash
-    git clone https://github.com/your-username/memory-game.git
+    git clone https://github.com/kulianpa7/1009-50915130.git
     ```
 2. 在瀏覽器中打開 `index.html`。
 
