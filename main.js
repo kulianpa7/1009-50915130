@@ -12,6 +12,9 @@ Array.prototype.shuffle = function() {
     return this; // 返回打亂後的陣列
 }
 $(document).ready(function() {
+
+    let isappear = false; 
+
     const successSound = new Audio('success.mp3');
     const failSound = new Audio('fail.mp3');
     let wait_second = 10;
@@ -102,6 +105,7 @@ $(document).ready(function() {
         // 設置 10 秒後翻轉卡片
         clearTimeout(flipTimer);
         flipTimer = setTimeout(() => {
+            $('.card').removeClass('disabled');
             $('.card').toggleClass('flipped'); // 翻轉卡片
         }, wait_second*1000); // 10秒（wait_second毫秒）
     })
@@ -188,7 +192,6 @@ $(document).ready(function() {
             }
             $main.append($row);
         }
-        
         let flippedCards = []; // 用於存儲翻轉的卡片
 
         // 點擊卡片翻面
@@ -218,6 +221,18 @@ $(document).ready(function() {
                     successSound.pause();
                     successSound.currentTime = 0;
                     successSound.play()
+
+                    if (isappear) {
+                        flippedCards.forEach(card => {
+                            $(card).css('visibility', 'hidden');
+                        });
+                    } else {
+                        flippedCards.forEach(card => {
+                            $(card).css('visibility', 'visible');
+                        });
+                    }
+                    
+                    
                     win++;
                     if(win == rows*cols/2){
                         Swal.fire({
@@ -235,8 +250,10 @@ $(document).ready(function() {
                     failSound.pause();
                     failSound.currentTime = 0;
                     failSound.play()
+                    $('.card').addClass('disabled');
                     setTimeout(() => {
                         $('.card').not('.success').removeClass('flipped');
+                        $('.card').removeClass('disabled');
                     }, 500); // 延遲1秒翻回去
                 }
                 // 清空翻轉卡片數組
@@ -248,6 +265,7 @@ $(document).ready(function() {
 
     // 初始化網格
     renderGrid();
+    $('.card').addClass('disabled');
 
     // 點擊 .btn2 增加 X 軸列數
     $('.btn2').on('click', function() {
@@ -275,12 +293,14 @@ $(document).ready(function() {
         renderGrid();
         win= 0;
         elapsedTime=0;
+        $('.card').addClass('disabled');
         // 預設開啟卡片
         $('.card').addClass('flipped'); // 假設這會顯示正面
         // 設置 10 秒後翻轉卡片
         clearTimeout(flipTimer)
         flipTimer= setTimeout(() => {
             $('.card').toggleClass('flipped'); // 翻轉卡片
+            $('.card').removeClass('disabled');
         }, wait_second*1000); // 10秒（wait_second毫秒）
     }
     // 點擊 .btn3 增加 Y 軸行數
@@ -328,6 +348,7 @@ $(document).ready(function() {
     // 設置 10 秒後翻轉卡片
     clearTimeout(flipTimer);
     flipTimer= setTimeout(() => {
+        $('.card').removeClass('disabled');
         $('.card').toggleClass('flipped'); // 翻轉卡片
     }, wait_second*1000); // 10秒（wait_second毫秒）
     $('#grids').on('change', function() {
@@ -340,4 +361,11 @@ $(document).ready(function() {
         wait_second = $(this).val();
         newgame();
     });
+
+
+    $('#appear_bar').on('click',function(){
+        isappear = !isappear;
+        $(this).html(`${!isappear ? "不":""}顯示已完成的圖片<i class="fa-solid fa-bell"></i>`);
+        $(this).toggleClass('isappear');
+    })
 });

@@ -10,6 +10,14 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
   }
+
+.isappear {
+    background-color: green !important;
+    color: white;
+}
+.card.disabled {
+    pointer-events: none; /* 禁用點擊 */
+}
 .sidebar {
     left:3px;
     width: 10%;
