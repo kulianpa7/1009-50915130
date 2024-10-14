@@ -14,6 +14,7 @@ Array.prototype.shuffle = function() {
 $(document).ready(function() {
     const successSound = new Audio('success.mp3');
     const failSound = new Audio('fail.mp3');
+    let wait_second = 10;
     let picture_img = 0;
     let timerInterval;
     let elapsedTime = 0;
@@ -23,9 +24,9 @@ $(document).ready(function() {
     let win = 0;
     timerInterval = setInterval(function() {
         elapsedTime++;
-        if (10 - elapsedTime > 0) {
-            $('.sec').text(10 - elapsedTime);
-        }else if(10 - elapsedTime == 0){
+        if (wait_second - elapsedTime > 0) {
+            $('.sec').text(wait_second - elapsedTime);
+        }else if(wait_second - elapsedTime == 0){
             $('.sec').text('');
         }
     }, 1000);
@@ -85,15 +86,13 @@ $(document).ready(function() {
         win= 0;
         elapsedTime=0;
         $main.empty();
+        let row_col = $('#grids').val().split(' '); // 确保值被拆分为数组
+        rows = parseInt(row_col[0]); // 确保转换为数字
+        cols = parseInt(row_col[1]); // 确保转换为数字
         if(picture_img==1){
-            rows=4;
-            cols=4;
             picture_img = 0;
             newgame()
         }else if(picture_img==0){
-            
-            rows=4;
-            cols=4;
             picture_img=1;
             newgame()
         }
@@ -104,7 +103,7 @@ $(document).ready(function() {
         clearTimeout(flipTimer);
         flipTimer = setTimeout(() => {
             $('.card').toggleClass('flipped'); // 翻轉卡片
-        }, 10000); // 10秒（10000毫秒）
+        }, wait_second*1000); // 10秒（wait_second毫秒）
     })
     front_img.shuffle();
     front_img.shuffle();
@@ -180,7 +179,7 @@ $(document).ready(function() {
                                 <img src="https://picsum.photos/200" alt="Front Image">
                             </div>
                             <div class="card-back">
-                                <img src="${front_img[i*cols+j]}" alt="Back Image">
+                                <img src="${front_img[i*cols+j]}" alt="${front_img[i*cols+j]}" style="width:100%;height:100%;object-fit:cover;"> 
                             </div>
                         </div>
                     </div>
@@ -282,7 +281,7 @@ $(document).ready(function() {
         clearTimeout(flipTimer)
         flipTimer= setTimeout(() => {
             $('.card').toggleClass('flipped'); // 翻轉卡片
-        }, 10000); // 10秒（10000毫秒）
+        }, wait_second*1000); // 10秒（wait_second毫秒）
     }
     // 點擊 .btn3 增加 Y 軸行數
     $('.btn3').on('click', function() {
@@ -330,11 +329,15 @@ $(document).ready(function() {
     clearTimeout(flipTimer);
     flipTimer= setTimeout(() => {
         $('.card').toggleClass('flipped'); // 翻轉卡片
-    }, 10000); // 10秒（10000毫秒）
+    }, wait_second*1000); // 10秒（wait_second毫秒）
     $('#grids').on('change', function() {
         let row_col = $(this).val().split(' '); // 确保值被拆分为数组
         rows = parseInt(row_col[0]); // 确保转换为数字
         cols = parseInt(row_col[1]); // 确保转换为数字
+        newgame();
+    });
+    $('#waitsecond').on('change', function() {
+        wait_second = $(this).val();
         newgame();
     });
 });
