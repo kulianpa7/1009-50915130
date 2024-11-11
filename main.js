@@ -364,8 +364,8 @@ $(document).ready(function() {
 
 
     $('#appear_bar').on('click',function(){
-        isappear = !isappear;
         $(this).html(`${!isappear ? "不":""}顯示已完成的圖片<i class="fa-solid fa-bell"></i>`);
         $(this).toggleClass('isappear');
+        isappear = !isappear;
     })
 });
