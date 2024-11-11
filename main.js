@@ -12,12 +12,10 @@ Array.prototype.shuffle = function() {
     return this; // 返回打亂後的陣列
 }
 $(document).ready(function() {
-
     let isappear = false; 
-
     const successSound = new Audio('success.mp3');
     const failSound = new Audio('fail.mp3');
-    let wait_second = 10;
+    let wait_second = 0;
     let picture_img = 0;
     let timerInterval;
     let elapsedTime = 0;
@@ -34,7 +32,6 @@ $(document).ready(function() {
         }
     }, 1000);
     let front_img = [
-
     ];
     let front_img1 = [
         `https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=800`,
@@ -79,7 +76,6 @@ $(document).ready(function() {
         "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 
     ];
-
     front_img = front_img1.slice(0,rows*cols/2);
     front_img.forEach(ele=>{
         front_img.push(ele);
@@ -102,6 +98,7 @@ $(document).ready(function() {
         clearsidebar2()
         // 預設開啟卡片
         $('.card').addClass('flipped'); // 假設這會顯示正面
+        
         // 設置 10 秒後翻轉卡片
         clearTimeout(flipTimer);
         flipTimer = setTimeout(() => {
@@ -263,9 +260,9 @@ $(document).ready(function() {
 
     }
 
-    // 初始化網格
-    renderGrid();
-    $('.card').addClass('disabled');
+    // // 初始化網格
+    // renderGrid();
+    // $('.card').addClass('disabled');
 
     // 點擊 .btn2 增加 X 軸列數
     $('.btn2').on('click', function() {
@@ -361,7 +358,10 @@ $(document).ready(function() {
         wait_second = $(this).val();
         newgame();
     });
-
+    $('.start').on('click', function() {
+        wait_second = $("#waitsecond").val();
+        newgame();
+    });
 
     $('#appear_bar').on('click',function(){
         $(this).html(`${!isappear ? "不":""}顯示已完成的圖片<i class="fa-solid fa-bell"></i>`);
